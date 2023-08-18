@@ -19,11 +19,13 @@ class Client extends Model
     ];
 
 
-    public function clientActiveScope()
+   /* public function clientActiveScope()
     {
 
         return Client::where('status', 1);
-    }
+    }*/
+
+    
 
 
     public function projects(): HasMany
