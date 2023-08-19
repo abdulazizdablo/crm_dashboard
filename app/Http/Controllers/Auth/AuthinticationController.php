@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\EmailDuplicateExeption;
 use App\Http\Requests\RegestrationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,11 +17,15 @@ class AuthinticationController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
+
+            $activity  = Session::put(['status' => 1]);
+            $user = auth()->user();
+            $user->update(['status'=> 1]);
             return redirect()->intended('/home');
         }
 
 
-        $activity  = Session::put(['status' => 1]);
+        
 
         return back()->withErrors('Invalid email or password');
     }
@@ -33,13 +38,12 @@ class AuthinticationController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
-        } catch (\Exception $e) {
-            if ($e->getCode() == 1062) {
+        } catch (\Exception $exception) {
 
 
-                session()->flash('message', 'You have been register using this email');
-                return redirect()->route('/register');
-            }
+
+            session()->flash('message', $exception->getMessage());
+            return redirect()->route('/register');
         }
 
         Auth::login($user);

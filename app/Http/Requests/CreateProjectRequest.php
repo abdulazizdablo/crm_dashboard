@@ -11,7 +11,7 @@ class CreateProjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class CreateProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+
+            'title' => 'required|string|max:40',
+            'description' => 'required|string|max:255',
+            'deadline' => 'required|date_format:Y-m-d|after:now',
+            'assigned_user' => 'required',
+            'assigned_client' => 'required',
+            'status' => 'required'
         ];
     }
 }

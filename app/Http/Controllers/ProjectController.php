@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateProjectRequest;
 use Illuminate\Http\Request;
 use App\Models\Project;
 
@@ -12,7 +13,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = Project::all()->paginate(20);
     }
 
     /**
@@ -26,17 +27,24 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateProjectRequest $request)
     {
-        //
-    }
 
+         
+
+        Project::create($request->validated());
+
+
+
+
+
+    }
     /**
      * Display the specified resource.
      */
     public function show(Project $project)
     {
-        //
+        return view('project.show');
     }
 
     /**
@@ -44,7 +52,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('project.edit');
     }
 
     /**
@@ -52,7 +60,7 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        
     }
 
     /**
