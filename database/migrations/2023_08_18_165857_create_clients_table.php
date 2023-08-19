@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->constrained();
+            $table->boolean('active')->default(0);
             $table->timestamps();
         });
     }
