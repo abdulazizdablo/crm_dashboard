@@ -62,4 +62,11 @@ class ProjectController extends Controller
     {
         //
     }
+
+    public function sofDelete(Project $project){
+
+        $project->delete_at = now();
+        $project->save();
+        
+            }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthinticationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,4 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::permanentRedirect('/','login');
+Route::get('/', function () {
+
+
+    return view('welcome');
+});
+
+
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/register', [AuthinticationController::class, 'register']);
+
+    Route::get('/login', [AuthinticationController::class, 'login']);
+});
+
+
+
+
+Route::resource('project', [ProjectController::class]);
+Route::resource('task', [TaskController::class]);
+Route::resource('client', [clientController::class]);

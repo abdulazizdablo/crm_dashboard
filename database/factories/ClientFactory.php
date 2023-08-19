@@ -17,7 +17,10 @@ class ClientFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'company' => $this->faker->name,
+            'vat' => $this->faker->randomNumber(300),
+            'address' => $this->faker->address()
+
         ];
     }
 }

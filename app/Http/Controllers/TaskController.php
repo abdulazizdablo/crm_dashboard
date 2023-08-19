@@ -62,4 +62,11 @@ class TaskController extends Controller
     {
         //
     }
+
+    public function sofDelete(Task $task)
+    {
+
+        $task->delete_at = now();
+        $task->save();
+    }
 }

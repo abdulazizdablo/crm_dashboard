@@ -22,7 +22,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return view('clients.index');
     }
 
     /**
@@ -64,4 +64,12 @@ class ClientController extends Controller
     {
         //
     }
+
+    public function sofDelete(Client $client){
+
+$client->delete_at = now();
+$client->save();
+
+    }
+
 }
