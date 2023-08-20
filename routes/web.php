@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AuthinticationController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ClientController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,6 +32,19 @@ Route::group(['middleware' => 'guest'], function () {
 
 
 
-Route::resource('project', [ProjectController::class]);
-Route::resource('task', [TaskController::class]);
-Route::resource('client', [clientController::class]);
+Route::resource('projects', ProjectController::class);
+Route::resource('tasks', TaskController::class);
+Route::resource('clients', ClientController::class);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware('auth')->group(function () {
+    Route::view('about', 'about')->name('about');
+
+    Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+
+    Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
+    Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+});

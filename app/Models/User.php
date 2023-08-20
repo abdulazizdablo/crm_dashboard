@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable 
 {
-    use HasApiTokens, HasFactory, Notifiable,HasRoles,SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable,HasRoles,SoftDeletes,MustVerifyEmail;
 
     /**
      * The attributes that are mass assignable.

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 trait FormatDates
 {
 
-    protected function deadLineFormat(): Attribute
+    protected function deadLine(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => Carbon::parse($value)->format('m-d-Y'),

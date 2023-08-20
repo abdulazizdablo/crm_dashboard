@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateProjectRequest;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use Carbon\Carbon;
 
 class ProjectController extends Controller
 {
@@ -32,7 +33,11 @@ class ProjectController extends Controller
 
          
 
-        Project::create($request->validated());
+        Project::create(
+            
+            array_merge(  $request->validated()),
+            ['deadline' => Carbon::parse($request->deadline)]);
+          
 
 
 

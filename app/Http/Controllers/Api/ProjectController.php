@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use App\Models\Project;
 
 class ProjectController extends Controller
 {
@@ -36,7 +38,16 @@ class ProjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        try{
+        $project = Project::findOrFail($id);
+        }
+        catch(ModelNotFoundException $exception){
+
+
+            return redirect()->withError('There is no existing Project');
+        }
+        
     }
 
     /**

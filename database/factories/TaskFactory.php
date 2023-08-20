@@ -17,10 +17,13 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
+            'title' => $this->faker->name,
             'description' => $this->faker->text,
-            'project_id' => $this->faker->numberBetween(1, 10),
-            'status' => $this->faker->randomElement(['Pending', 'In Progress', 'Completed']),
+            'project_id' => 1,
+            'client_id' => 1,
+            'user_id' => 1,
+            'deadline' => $this->faker->dateTime(),
+            'status' => $this->faker->randomElement(['open','in progress','pending','closed']),
    
         ];
     }

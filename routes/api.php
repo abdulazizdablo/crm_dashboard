@@ -23,8 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('project',[ProjectController::class]);
-Route::apiResource('task',[TaskController::class]);
-Route::apiResource('client',[ClientController::class]);
+Route::apiResource('project',ProjectController::class);
+Route::apiResource('task',TaskController::class);
+Route::apiResource('client',ClientController::class);
 
 

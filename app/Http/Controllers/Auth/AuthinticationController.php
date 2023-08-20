@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 
 class AuthinticationController extends Controller
 {
@@ -18,14 +19,13 @@ class AuthinticationController extends Controller
 
         if (Auth::attempt($credentials)) {
 
-            $activity  = Session::put(['status' => 1]);
-            $user = auth()->user();
-            $user->update(['status'=> 1]);
+          session(['last_activity' => Carbon::now()]);
+          
             return redirect()->intended('/home');
         }
 
 
-        
+
 
         return back()->withErrors('Invalid email or password');
     }
@@ -44,6 +44,15 @@ class AuthinticationController extends Controller
 
             session()->flash('message', $exception->getMessage());
             return redirect()->route('/register');
+        }
+
+        $user->sendEmailVerificationNotification();
+
+
+        if (!$user->hasVerifiedEmail) {
+
+
+            $user->markEmailAsVerified();
         }
 
         Auth::login($user);
