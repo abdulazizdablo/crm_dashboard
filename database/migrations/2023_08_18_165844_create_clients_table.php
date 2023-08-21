@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->string('company_name', 40);
             $table->string('vat');
+            $table->softDeletes();
             $table->string('address');
             $table->timestamps();
         });

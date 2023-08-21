@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('deadline');
             $table->text('description');
             $table->enum('status',['open','in progress','pending','closed']);
-        
+            $table->softDeletes();
 
             $table->timestamps();
         });

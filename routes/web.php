@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ClientController;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,21 +23,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Auth::routes();
 
-Route::group(['middleware' => 'guest'], function () {
+/*Route::group(['middleware' => 'guest'], function () {
     Route::get('/register', [AuthinticationController::class, 'register']);
 
     Route::get('/login', [AuthinticationController::class, 'login']);
-});
+});*/
 
 
 
 
-Route::resource('projects', ProjectController::class);
-Route::resource('tasks', TaskController::class);
-Route::resource('clients', ClientController::class);
 
-Auth::routes();
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -48,3 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 });
+
+
+Route::resource('projects', ProjectController::class);
+Route::resource('tasks', TaskController::class);
+Route::resource('clients', ClientController::class);

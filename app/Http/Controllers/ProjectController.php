@@ -15,6 +15,7 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::all()->paginate(20);
+        return redirect()->route('projects.index');
     }
 
     /**
@@ -22,7 +23,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('projects.create');
     }
 
     /**
@@ -31,18 +32,13 @@ class ProjectController extends Controller
     public function store(CreateProjectRequest $request)
     {
 
-         
+
 
         Project::create(
-            
-            array_merge(  $request->validated()),
-            ['deadline' => Carbon::parse($request->deadline)]);
-          
 
-
-
-
-
+            array_merge($request->validated()),
+            ['deadline' => Carbon::parse($request->deadline)]
+        );
     }
     /**
      * Display the specified resource.
@@ -65,7 +61,6 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        
     }
 
     /**
@@ -73,13 +68,13 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
     }
 
-    public function sofDelete(Project $project){
+    public function sofDelete(Project $project)
+    {
 
-        $project->delete_at = now();
+        $project->deleted_at = now();
         $project->save();
-        
-            }
+    }
 }

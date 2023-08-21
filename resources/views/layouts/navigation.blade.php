@@ -16,6 +16,33 @@
             {{ __('Users') }}
         </a>
     </li>
+    
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('clients.index') }}">
+            <svg class="nav-icon">
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-contact') }}"></use>
+            </svg>
+            {{ __('Clients') }}
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('projects.index') }}">
+            <svg class="nav-icon">
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-library') }}"></use>
+            </svg>
+            {{ __('Projects') }}
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('tasks.index') }}">
+            <svg class="nav-icon">
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-list') }}"></use>
+            </svg>
+            {{ __('Tasks') }}
+        </a>
+    </li>
 
     <li class="nav-item">
         <a class="nav-link" href="{{ route('about') }}">
@@ -45,3 +72,4 @@
         </ul>
     </li>
 </ul>
+

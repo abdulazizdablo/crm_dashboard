@@ -13,9 +13,21 @@
                     <svg class="icon">
                       <use xlink:href="{{ asset('icons/coreui.svg#cil-user') }}"></use>
                     </svg></span>
-                        <input class="form-control" type="text" name="name" placeholder="{{ __('Name') }}" required
-                               autocomplete="name" autofocus>
-                        @error('name')
+                        <input class="form-control" type="text" name="first_name" placeholder="{{ __('First Name') }}" required
+                               autocomplete="first_name" autofocus>
+                        @error('first_name')
+                        <span class="invalid-feedback">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                     <div class="input-group mb-3"><span class="input-group-text">
+                    <svg class="icon">
+                      <use xlink:href="{{ asset('icons/coreui.svg#cil-user') }}"></use>
+                    </svg></span>
+                        <input class="form-control" type="text" name="last_name" placeholder="{{ __('Last Name') }}" required
+                               autocomplete="last_name" autofocus>
+                        @error('last_name')
                         <span class="invalid-feedback">
                             {{ $message }}
                         </span>

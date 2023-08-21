@@ -54,7 +54,7 @@
                             </svg>
                             {{ __('My profile') }}
                         </a>
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form  style="z-index:99;"  method="POST" action="{{ route('logout') }}">
                             @csrf
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault(); this.closest('form').submit();">

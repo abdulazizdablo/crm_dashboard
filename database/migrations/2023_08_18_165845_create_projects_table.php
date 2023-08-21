@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('status',['open','in progress','pending']);
             $table->foreignId('user_id')->constrained();
             $table->foreignId('client_id')->constrained();
-
+            $table->softDeletes();
             $table->timestamps();
         });
     }
