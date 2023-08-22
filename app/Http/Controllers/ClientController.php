@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateClientRequest;
 use Illuminate\Http\Request;
 use App\Models\Client;
 
@@ -12,9 +13,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-       $clients = Client::all();
-
-       return redirect()->route('clients');
+        $clients = Client::with(['task', 'project'])->paginate(20);
+        return view('layouts.clients.index')->with('clients', $clients);
     }
 
     /**
@@ -22,15 +22,16 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('clients.index');
+        return view('layouts.clients.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateClientRequest $request)
     {
-        //
+        Client::create($request->validated());
+        return redirect()->route('clients.index')->withMessage('Client has been created succesfully');
     }
 
     /**
@@ -65,11 +66,10 @@ class ClientController extends Controller
         //
     }
 
-    public function sofDelete(Client $client){
+    public function sofDelete(Client $client)
+    {
 
-$client->delete_at = now();
-$client->save();
-
+        $client->delete_at = now();
+        $client->save();
     }
-
 }

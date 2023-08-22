@@ -6,6 +6,8 @@ use App\Http\Requests\CreateProjectRequest;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Client;
 
 class ProjectController extends Controller
 {
@@ -14,8 +16,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all()->paginate(20);
-        return redirect()->route('projects.index');
+        $projects = Project::with('users', 'clients')->paginate(20);
+       
+        return view('layouts.projects.index')->with('projects', $projects);
     }
 
     /**
@@ -23,7 +26,10 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('projects.create');
+
+        $users = User::all()->pluck('full_name', 'id');
+        $clients = Client::all()->pluck('company_name', 'id');
+        return view('layouts.projects.create')->with('users',$users)->with('clients',$clients);
     }
 
     /**

@@ -11,7 +11,7 @@ class CreateClientRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class CreateClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'contact_name' => 'required|string',
+            'contact_email' => 'required|unique:clients|email',
+            'contact_phone' => 'required|string',
+            'company_vat' => 'required|digits_between:1,7',
+            'company_name' => 'required|string',
+            'company_address' => 'required|string',
+            'company_city' => 'required|string',
+            'company_zip' => 'required|digits_between:1,7'
         ];
     }
 }

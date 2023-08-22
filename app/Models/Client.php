@@ -13,11 +13,15 @@ class Client extends Model
     use HasFactory;
 
     protected $fillable = [
-        'first_name',
-        'last_name',
-        'company',
-        'vat',
-        'address'
+        'contact_name',
+        'contact_email',
+        'company_city',
+        'contact_phone',
+        
+        'company_zip',
+        'company_name',
+        'company_vat',
+        'company_address'
     ];
 
 
@@ -32,13 +36,13 @@ class Client extends Model
     {
         // Get the user's session ID
         $sessionId = session('session_id');
-    
+
         // Get the active clients from the session database
         $clients = DB::table('sessions')
             ->where('id', $sessionId)
             ->where('last_activity', '>', Carbon::now()->subMinutes(15))
             ->pluck('client_id');
-    
+
         // Only return the clients that are in the session database
         $query->whereIn('id', $clients);
     }
@@ -49,8 +53,9 @@ class Client extends Model
         return $this->hasMany(Project::class);
     }
 
-    public function getFullName(){
+    public function getFullName()
+    {
 
-        return $this->first_name .' '. $this->last_name;
+        return $this->first_name . ' ' . $this->last_name;
     }
 }

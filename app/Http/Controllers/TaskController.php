@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
-
+use App\Models\User;
+use App\Models\Client;
+use App\Models\Project;
 class TaskController extends Controller
 {
     /**
@@ -12,7 +14,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $tasks =Task::with(['user','client','project'])->paginate(20);
+        return view('layouts.tasks.index')->with('tasks',$tasks);
     }
 
     /**
@@ -20,7 +23,10 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::all()->pluck('full_name', 'id');
+        $clients = Client::all()->pluck('company_name', 'id');
+        $projects = Project::all()->pluck('title','id');
+        return view('layouts.tasks.create')->with('users',$users)->with('clients',$clients)->with('projects',$projects);
     }
 
     /**
