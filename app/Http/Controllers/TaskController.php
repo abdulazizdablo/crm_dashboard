@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTaskRequest;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Project;
+use Carbon\Carbon;
+use App\Enums\StatusModel;
+
 class TaskController extends Controller
 {
     /**
@@ -26,15 +30,26 @@ class TaskController extends Controller
         $users = User::all()->pluck('full_name', 'id');
         $clients = Client::all()->pluck('company_name', 'id');
         $projects = Project::all()->pluck('title','id');
-        return view('layouts.tasks.create')->with('users',$users)->with('clients',$clients)->with('projects',$projects);
+        //$taskstatus = StatusModel::cases();
+
+        /*$flatArray = [];
+        foreach ($taskstatus as $case) {
+            $flatArray[$case->name] = $case->value;
+        }*/
+        return view('layouts.tasks.create')->
+        with('users',$users)->
+        with('clients',$clients)->
+        with('projects',$projects)->
+        with('statuses',config('status'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateTaskRequest $request)
     {
-        //
+        Task::create(array_merge($request->validated(),
+        ['deadline'=> Carbon::parse('deadline')]));
     }
 
     /**

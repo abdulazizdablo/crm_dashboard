@@ -12,4 +12,12 @@ class UserController extends Controller
 
         return view('users.index', compact('users'));
     }
+
+    public function activeUsers(){
+
+
+        $active_users = User::active()->paginate();
+
+        return view('users.active')->with('active_users',$active_users);
+    }
 }

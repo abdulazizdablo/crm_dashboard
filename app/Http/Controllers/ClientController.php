@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateClientRequest;
+use App\Http\Requests\EditClientRequest;
 use Illuminate\Http\Request;
 use App\Models\Client;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ClientController extends Controller
 {
@@ -39,7 +41,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        //
+        return view('layouts.clients.show')->with('client', $client);
     }
 
     /**
@@ -47,15 +49,24 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        return view('layouts.clients.edit')->with('client',$client);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Client $client)
+    public function update(EditClientRequest $request, string $id)
     {
-        //
+
+        try {
+            $client = Client::findOrFail($id);
+
+            $client->update($request->validated());
+        } catch (ModelNotFoundException $exception) {
+
+
+            return redirect()->route('clients.create')->withErrors($exception->getMessage());
+        }
     }
 
     /**
@@ -63,7 +74,8 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        $client->delete();
+        return redirect()->route('client.index')->withMessage('Client has been deleted succefully');
     }
 
     public function sofDelete(Client $client)

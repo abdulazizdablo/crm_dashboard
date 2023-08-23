@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\FormatDates;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,18 +22,24 @@ class Task extends Model
     ];
 
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function client()
+    public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
     }
 
-    public function project()
+    public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
+
+    /*public function setDeadLineAttribute(){
+
+
+        $this->attributes['deadline'] = Carbon::parse()
+    }*/
 }

@@ -28,7 +28,7 @@ class CreateProjectRequest extends FormRequest
             'deadline' => 'required|date_format:Y-m-d|after:now',
             'assigned_user' => 'required',
             'assigned_client' => 'required',
-            'status' => 'required'
+            'status' => 'required|in'.config('status')
         ];
     }
 }

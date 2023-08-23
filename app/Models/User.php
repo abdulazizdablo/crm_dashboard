@@ -13,8 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
-
+use Illuminate\Database\Eloquent\Builder;
 class User extends Authenticatable 
 {
     use HasApiTokens, HasFactory, Notifiable,HasRoles,SoftDeletes,MustVerifyEmail;
@@ -64,6 +63,13 @@ class User extends Authenticatable
     public function getFullNameAttribute(){
 
         return $this->first_name .' '. $this->last_name;
+    }
+
+
+
+    public function scopeActive(Builder $query){
+
+        return $query->where('user_is_online',1);
     }
 }
     
