@@ -10,6 +10,7 @@ use App\Models\Client;
 use App\Models\Project;
 use Carbon\Carbon;
 use App\Enums\StatusModel;
+use Illuminate\Auth\Access\Gate;
 use App\Http\Requests\EditTaskRequest;
 
 class TaskController extends Controller
@@ -19,7 +20,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks =Task::with(['user','client','project'])->paginate(20);
+        $tasks =Task::with(['user','client','project'])->withTrashed()->paginate(20);
         return view('layouts.tasks.index')->with('tasks',$tasks);
     }
 
@@ -82,10 +83,13 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+
+        Gate::authorize('delete-task');
+
         $task->delete();
     }
 
-    public function sofDelete(Task $task)
+    public function softDelete(Task $task)
     {
 
         $task->delete_at = now();

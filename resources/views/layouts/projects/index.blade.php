@@ -18,6 +18,12 @@
                     {{ session('status') }}
                 </div>
             @endif
+              @if (session('message'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('message') }}
+                </div>
+            @endif
+
 
             <div class="d-flex justify-content-end">
                 <form action="{{ route('projects.index') }}" method="GET">
@@ -59,8 +65,9 @@
 
                                 <form action="{{ route('projects.soft-delete', $project->id) }}" method="POST">
 
-@csrf
-                                    <Input class="btn btn-sm btn-danger" type="submit" value="Soft Delete" placeholder="Soft Delete">
+                                    @csrf
+                                    <Input class="btn btn-sm btn-danger" type="submit" value="Soft Delete"
+                                        placeholder="Soft Delete">
                                 </form>
                             </td>
                         </tr>

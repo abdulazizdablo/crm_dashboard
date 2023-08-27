@@ -54,10 +54,10 @@ Route::middleware('auth')->group(function () {
   
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
-    Route::post('projects', [ProjectController::class, 'softDelete'])->name('projects.soft-delete');
-    Route::delete('tasks', [TaskController::class, 'softDelete'])->name('tasks.soft-delete');
-    Route::delete('users', [UserController::class, 'softDelete'])->name('users.soft-delete');
-    Route::delete('clients', [ClientController::class, 'softDelete'])->name('clients.soft-delete');
+    Route::post('projects/{project}', [ProjectController::class, 'softDelete'])->name('projects.soft-delete');
+    Route::post('tasks/{task}', [TaskController::class, 'softDelete'])->name('tasks.soft-delete');
+    Route::post('users/{user}', [UserController::class, 'softDelete'])->name('users.soft-delete');
+    Route::post('clients/{client}', [ClientController::class, 'softDelete'])->name('clients.soft-delete');
 
 
     Route::get('active-users',[UserController::class,'activeUsers'])->name('users.active');

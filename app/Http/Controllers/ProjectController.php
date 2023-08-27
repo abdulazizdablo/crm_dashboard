@@ -6,11 +6,8 @@ use App\Http\Requests\CreateProjectRequest;
 use App\Http\Requests\EditProjectRequest;
 use Illuminate\Http\Request;
 use App\Models\Project;
-use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Client;
-use App\Enums\StatusModelEnum;
-use Illuminate\Support\Arr;
 
 class ProjectController extends Controller
 {
@@ -22,7 +19,7 @@ class ProjectController extends Controller
 
 
 
-        $projects = Project::with('user:id,first_name,last_name', 'client:id,company_name')->paginate(20);
+        $projects = Project::with('user:id,first_name,last_name', 'client:id,company_name')->withTrashed()->paginate(20);
 
         return view('layouts.projects.index')->with('projects', $projects);
     }
@@ -75,8 +72,8 @@ class ProjectController extends Controller
 ['deadline' => Carbon::parse($request->deadline)]));*/
 
 
-       // dd($request->user_id);
-      Project::create(
+        // dd($request->user_id);
+        Project::create(
             [
                 'deadline' => $request->deadline,
                 'user_id' => $request->user_id,
@@ -125,12 +122,20 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+
+        $this->authorize('delete', User::class);
+
         $project->delete();
     }
 
     public function softDelete(Project $project)
     {
 
-        $project->update(['deleted_at'=> Carbon::now()]);
+        //  $project->update(['deleted_at'=> Carbon::now()]);
+
+        $project->deleted_at = now();
+        $project->save();
+
+        return redirect()->route('projects.index')->with('message', 'Project has been soft deleted successfully');
     }
 }

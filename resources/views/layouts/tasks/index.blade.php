@@ -56,6 +56,12 @@
                                 </form>
                             @endcan
                         </td>
+                        <form action="{{ route('projects.soft-delete', $project->id) }}" method="POST">
+
+                            @csrf
+                            <Input class="btn btn-sm btn-danger" type="submit" value="Soft Delete"
+                                placeholder="Soft Delete">
+                        </form>
                     </tr>
                 @endforeach
                 </tbody>
