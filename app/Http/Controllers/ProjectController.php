@@ -22,7 +22,7 @@ class ProjectController extends Controller
 
 
 
-        $projects = Project::with('users', 'clients')->paginate(20);
+        $projects = Project::with('user:id,first_name,last_name', 'client:id,company_name')->paginate(20);
 
         return view('layouts.projects.index')->with('projects', $projects);
     }
@@ -38,32 +38,59 @@ class ProjectController extends Controller
         //$projectstatus = StatusModel::cases();
 
 
-       /* $flatArray = [];
+        /* $flatArray = [];
         foreach ($projectstatus as $case) {
             $flatArray[$case->name] = $case->value;
         }*/
 
-        
 
-        return view('layouts.projects.create')->
-        with('users', $users)->
-        with('clients', $clients)->
-        with('statuses',config('status'));
+
+        return view('layouts.projects.create')->with('users', $users)->with('clients', $clients)->with('statuses', config('status'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateProjectRequest $request)
+    public function store(Request $request)
     {
 
 
+        ////$client = Client::find($request->client_id);
+        //$client->projects()->create($request->all());
+        // $user  = User::find($request->user_id);
 
-        Project::create(
 
-            array_merge($request->validated()),
-            ['deadline' => Carbon::parse($request->deadline)]
+
+        //$project = new Project();
+        //$project->fill($request->all());
+
+
+        // $project->save();
+
+
+
+
+
+        /*auth()->user()->projects()->create( array_merge($request->validated(),
+['deadline' => Carbon::parse($request->deadline)]));*/
+
+
+       // dd($request->user_id);
+      Project::create(
+            [
+                'deadline' => $request->deadline,
+                'user_id' => $request->user_id,
+                'client_id' =>  $request->client_id,
+                'status' =>  $request->status,
+                'title'   => $request->title,
+                'description'  => $request->description,
+
+            ]
+
+
         );
+
+        return redirect()->route('projects.index')->with(['message' => 'success']);
     }
     /**
      * Display the specified resource.
@@ -88,6 +115,9 @@ class ProjectController extends Controller
     {
 
 
+
+
+        $project->update($request->validated());
     }
 
     /**
@@ -98,10 +128,9 @@ class ProjectController extends Controller
         $project->delete();
     }
 
-    public function sofDelete(Project $project)
+    public function softDelete(Project $project)
     {
 
-        $project->deleted_at = now();
-        $project->save();
+        $project->update(['deleted_at'=> Carbon::now()]);
     }
 }

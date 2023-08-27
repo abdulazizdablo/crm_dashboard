@@ -7,6 +7,8 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,6 +25,8 @@ Route::get('/', function () {
 
     return view('welcome');
 });
+
+
 
 Auth::routes();
 
@@ -44,12 +48,24 @@ Route::middleware('auth')->group(function () {
     Route::view('about', 'about')->name('about');
 
     Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
-
+    Route::get('media', [MediaController::class, 'createImage'])->name('media.createImage');
+    Route::post('media', [MediaController::class, 'updateImage'])->name('media.updateImage');
+    
+  
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
-});
+    Route::post('projects', [ProjectController::class, 'softDelete'])->name('projects.soft-delete');
+    Route::delete('tasks', [TaskController::class, 'softDelete'])->name('tasks.soft-delete');
+    Route::delete('users', [UserController::class, 'softDelete'])->name('users.soft-delete');
+    Route::delete('clients', [ClientController::class, 'softDelete'])->name('clients.soft-delete');
 
-Route::get('active-users',[UserController::class,'activeUsers'])->name('users.active');
+
+    Route::get('active-users',[UserController::class,'activeUsers'])->name('users.active');
 Route::resource('projects', ProjectController::class);
 Route::resource('tasks', TaskController::class);
 Route::resource('clients', ClientController::class);
+  
+
+});
+
+

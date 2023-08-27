@@ -15,7 +15,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::with(['task', 'project'])->paginate(20);
+        $clients = Client::with(['tasks', 'projects'])->paginate(20);
         return view('layouts.clients.index')->with('clients', $clients);
     }
 

@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('contact_name', 40)->unique();
             $table->string('contact_email', 40)->unique();
-            $table->string('contact_address', 40);
+            $table->string('company_address', 40);
             $table->string('company_city', 40);
-            $table->string('contact_phone', 40);
+            $table->string('company_name', 40);
+
+            $table->string('contact_phone_number', 40);
             $table->string('company_zip', 40);
             $table->string('company_vat');
             $table->softDeletes();

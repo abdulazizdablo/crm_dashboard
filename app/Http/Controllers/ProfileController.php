@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Profile;
 
 class ProfileController extends Controller
 {
@@ -25,4 +26,23 @@ class ProfileController extends Controller
 
         return redirect()->back()->with('success', 'Profile updated.');
     }
+
+
+
+
+/*public function createImage(Profile $profile){
+
+
+    return view('profile_image')->with('profile',$profile);
+}
+
+
+    public function updateImage(){
+
+
+
+
+    }*/
+
+    
 }

@@ -10,6 +10,7 @@ use App\Models\Client;
 use App\Models\Project;
 use Carbon\Carbon;
 use App\Enums\StatusModel;
+use App\Http\Requests\EditTaskRequest;
 
 class TaskController extends Controller
 {
@@ -57,7 +58,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        return view('layouts.tasks.show')->with('task',$task);
     }
 
     /**
@@ -65,15 +66,15 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        return view('layouts.tasks.edit')->with('task',$task);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(EditTaskRequest $request, Task $task)
     {
-        //
+        $task->update($request->validated());
     }
 
     /**
@@ -81,7 +82,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task->delete();
     }
 
     public function sofDelete(Task $task)

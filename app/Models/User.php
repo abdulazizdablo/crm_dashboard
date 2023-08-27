@@ -14,9 +14,11 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
-class User extends Authenticatable 
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
+class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable,HasRoles,SoftDeletes,MustVerifyEmail;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes, MustVerifyEmail;
 
     /**
      * The attributes that are mass assignable.
@@ -58,19 +60,32 @@ class User extends Authenticatable
         return $this->hasMany(Task::class);
     }
 
-    
-    
-    public function getFullNameAttribute(){
 
-        return $this->first_name .' '. $this->last_name;
+
+    public function getFullNameAttribute()
+    {
+
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function profile(): HasOne
+    {
+
+
+        return $this->hasOne(Profile::class);
+    }
+
+    public function projects(): HasMany
+    {
+
+
+        return $this->hasMany(Project::class);
     }
 
 
+    public function scopeActive(Builder $query)
+    {
 
-    public function scopeActive(Builder $query){
-
-        return $query->where('user_is_online',1);
+        return $query->where('user_is_online', 1);
     }
 }
-    
-

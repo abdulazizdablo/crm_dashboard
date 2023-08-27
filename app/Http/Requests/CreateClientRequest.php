@@ -24,7 +24,7 @@ class CreateClientRequest extends FormRequest
         return [
             'contact_name' => 'required|string',
             'contact_email' => 'required|unique:clients|email',
-            'contact_phone' => 'required|string',
+            'contact_phone_number' => 'required|string',
             'company_vat' => 'required|digits_between:1,7',
             'company_name' => 'required|string',
             'company_address' => 'required|string',

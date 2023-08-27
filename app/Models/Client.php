@@ -16,8 +16,8 @@ class Client extends Model
         'contact_name',
         'contact_email',
         'company_city',
-        'contact_phone',
-        
+        'contact_phone_number',
+
         'company_zip',
         'company_name',
         'company_vat',
@@ -32,7 +32,7 @@ class Client extends Model
     }*/
 
 
-    public function scopeActiveFromSession(Builder $query)
+    /* public function scopeActiveFromSession(Builder $query)
     {
         // Get the user's session ID
         $sessionId = session('session_id');
@@ -45,7 +45,7 @@ class Client extends Model
 
         // Only return the clients that are in the session database
         $query->whereIn('id', $clients);
-    }
+    }*/
 
     public function projects(): HasMany
     {
@@ -57,5 +57,11 @@ class Client extends Model
     {
 
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function tasks(): HasMany
+    {
+
+        return $this->hasMany(Task::class);
     }
 }
