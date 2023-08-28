@@ -48,7 +48,7 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateProjectRequest $request)
     {
 
 
@@ -74,20 +74,13 @@ class ProjectController extends Controller
 
         // dd($request->user_id);
         Project::create(
-            [
-                'deadline' => $request->deadline,
-                'user_id' => $request->user_id,
-                'client_id' =>  $request->client_id,
-                'status' =>  $request->status,
-                'title'   => $request->title,
-                'description'  => $request->description,
+        
 
-            ]
-
+            $request->validated()
 
         );
 
-        return redirect()->route('projects.index')->with(['message' => 'success']);
+        return redirect()->route('projects.index')->with(['message' => 'Project has been created succefully']);
     }
     /**
      * Display the specified resource.
@@ -102,7 +95,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('layouts.projects.edit');
+
+       // $this->authorize('update',$project);
+        return view('layouts.projects.edit')->with('project',$project);
     }
 
     /**
@@ -111,7 +106,7 @@ class ProjectController extends Controller
     public function update(EditProjectRequest $request, Project $project)
     {
 
-
+        //$this->authorize('update',  $project);
 
 
         $project->update($request->validated());

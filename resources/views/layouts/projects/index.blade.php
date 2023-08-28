@@ -18,7 +18,7 @@
                     {{ session('status') }}
                 </div>
             @endif
-              @if (session('message'))
+            @if (session('message'))
                 <div class="alert alert-success" role="alert">
                     {{ session('message') }}
                 </div>
@@ -51,9 +51,15 @@
                             <td>{{ $project->deadline }}</td>
                             <td>{{ $project->status }}</td>
                             <td>
-                                <a class="btn btn-sm btn-info" href="{{ route('projects.edit', $project) }}">
-                                    Edit
-                                </a>
+
+
+
+
+                                @can('update',$project)
+                                    <a class="btn btn-sm btn-info" href="{{ route('projects.edit', $project) }}">
+                                        Edit
+                                    </a>
+                                @endcan
                                 @can('delete')
                                     <form action="{{ route('projects.destroy', $project) }}" method="POST"
                                         onsubmit="return confirm('Are your sure?');" style="display: inline-block;">
@@ -62,6 +68,8 @@
                                         <input type="submit" class="btn btn-sm btn-danger" value="Delete">
                                     </form>
                                 @endcan
+
+
 
                                 <form action="{{ route('projects.soft-delete', $project->id) }}" method="POST">
 

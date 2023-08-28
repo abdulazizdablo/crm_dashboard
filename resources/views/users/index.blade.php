@@ -23,7 +23,7 @@
                             <td>{{ $user->getFullNameAttribute() }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-                                <form action="{{ route('projects.soft-delete', $project->id) }}" method="POST">
+                                <form action="{{ route('users.soft-delete', $user->id) }}" method="POST">
 
                                     @csrf
                                     <Input class="btn btn-sm btn-danger" type="submit" value="Soft Delete"
