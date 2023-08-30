@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\Client;
+use Illuminate\Support\Facades\Mail;
 
 class ProjectController extends Controller
 {
@@ -52,40 +53,15 @@ class ProjectController extends Controller
     public function store(CreateProjectRequest $request)
     {
 
-
-        ////$client = Client::find($request->client_id);
-        //$client->projects()->create($request->all());
-        // $user  = User::find($request->user_id);
-
-
-
-        //$project = new Project();
-        //$project->fill($request->all());
-
-
-        // $project->save();
-
-
-
-
-
-        /*auth()->user()->projects()->create( array_merge($request->validated(),
-['deadline' => Carbon::parse($request->deadline)]));*/
-
-
-        // dd($request->user_id);
-        Project::create(
-
+        $project = Project::create(
 
             $request->validated()
 
         );
 
+        $user = User::find($request->user_id);
 
-
-        $user = User::find($requuest->user_id);
-
-        Mail::to( $user)->send(new ProjectAssigned($project));
+        Mail::to($user)->send(new ProjectAssigned($project));
 
         return redirect()->route('projects.index')->with(['message' => 'Project has been created succefully']);
     }
@@ -117,7 +93,7 @@ class ProjectController extends Controller
     public function update(EditProjectRequest $request, Project $project)
     {
 
-        //$this->authorize('update',  $project);
+
 
 
         $project->update($request->validated());
@@ -137,7 +113,7 @@ class ProjectController extends Controller
     public function softDelete(Project $project)
     {
 
-        //  $project->update(['deleted_at'=> Carbon::now()]);
+
 
         $project->deleted_at = now();
         $project->save();

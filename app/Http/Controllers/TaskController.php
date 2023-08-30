@@ -33,12 +33,7 @@ class TaskController extends Controller
         $users = User::all()->pluck('full_name', 'id');
         $clients = Client::all()->pluck('company_name', 'id');
         $projects = Project::all()->pluck('title', 'id');
-        //$taskstatus = StatusModel::cases();
 
-        /*$flatArray = [];
-        foreach ($taskstatus as $case) {
-            $flatArray[$case->name] = $case->value;
-        }*/
         return view('layouts.tasks.create')->with('users', $users)->with('clients', $clients)->with('projects', $projects)->with('statuses', config('status'));
     }
 
@@ -51,8 +46,11 @@ class TaskController extends Controller
             $request->validated()
         );
 
-        $this->notify(new TaskAssigned($task));
-        return redirect()->route('task.index')->withMessage('Task has been created successfully');
+
+        $user = User::find($request->user_id);
+
+        $user->notify(new TaskAssigned($task));
+        return redirect()->route('tasks.index')->withMessage('Task has been created successfully');
     }
 
     /**
@@ -74,11 +72,7 @@ class TaskController extends Controller
         $projects = Project::all()->pluck('title', 'id');
 
 
-        return view('layouts.tasks.edit')->
-        with('task', $task)->
-        with('users', $users)->
-        with('clients',$clients)->
-        with('projects',$projects);
+        return view('layouts.tasks.edit')->with('task', $task)->with('users', $users)->with('clients', $clients)->with('projects', $projects);
     }
 
     /**
@@ -87,6 +81,7 @@ class TaskController extends Controller
     public function update(EditTaskRequest $request, Task $task)
     {
         $task->update($request->validated());
+        return back()->withMessage('Task has been updated successfully');
     }
 
     /**
@@ -106,6 +101,5 @@ class TaskController extends Controller
         $task->deleted_at = now();
         $task->save();
         return redirect()->route('tasks.index')->with('message', 'Task has been soft deleted successfully');
-
     }
 }

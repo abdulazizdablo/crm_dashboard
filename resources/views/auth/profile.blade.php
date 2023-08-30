@@ -21,7 +21,7 @@
                             <use xlink:href="{{ asset('icons/coreui.svg#cil-user') }}"></use>
                         </svg></span>
                     <input class="form-control" type="text" name="name" placeholder="{{ __('Name') }}"
-                        value="{{ old('name', auth()->user()->name) }}" required>
+                        value="{{ old('name', auth()->user()->full_name) }}" required>
                     @error('name')
                         <span class="invalid-feedback">
                             {{ $message }}
@@ -29,6 +29,10 @@
                     @enderror
                 </div>
 
+@dd($profile->getMedia())
+            @foreach ($profile->getMedia() as $media )
+                {{ $media }}
+            @endforeach
                 <div class="input-group mb-3"><span class="input-group-text">
                         <svg class="icon">
                             <use xlink:href="{{ asset('icons/coreui.svg#cil-envelope-open') }}"></use>
@@ -68,15 +72,15 @@
             <div class="card-footer">
                 <button class="btn btn-sm btn-primary" type="submit">{{ __('Submit') }}</button>
 
-            
+                <a href="{{ route('media.createImage') }}"> <button class="btn btn-sm btn-success">
+                    {{ __('Set profile picture') }}</button> </a>
+
             </div>
 
 
 
-
         </form>
-        <a href="{{ route('media.createImage') }}"> <button class="btn btn-sm btn-success">
-            {{ __('Set profile picture') }}</button> </a>
+        
 
     </div>
 @endsection

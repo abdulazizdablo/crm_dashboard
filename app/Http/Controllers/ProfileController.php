@@ -10,7 +10,9 @@ class ProfileController extends Controller
 {
     public function show()
     {
-        return view('auth.profile');
+
+        $profile = auth()->user()->profile;
+        return view('auth.profile')->with('profile',$profile);
     }
 
     public function update(ProfileUpdateRequest $request)

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('contact_name', 40)->unique();
             $table->string('contact_email', 40)->unique();
-            $table->string('company_address', 40);
+            $table->string('company_address', 255);
             $table->string('company_city', 40);
             $table->string('company_name', 40);
 

@@ -14,7 +14,7 @@ class TaskAssigned extends Notification
     /**
      * Create a new notification instance.
      */
-
+protected $task;
 
     public function __construct($task)
     {

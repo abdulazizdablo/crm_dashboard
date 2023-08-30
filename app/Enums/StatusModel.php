@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum StatusModel:string
+enum StatusModel: string
 {
     case Open = 'Open';
     case In_progress = 'In Progress';

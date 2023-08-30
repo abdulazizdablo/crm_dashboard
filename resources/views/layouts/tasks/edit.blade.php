@@ -106,7 +106,10 @@
                             <label for="status">Status</label>
                             <select class="form-control {{ $errors->has('status') ? 'is-invalid' : '' }}" name="status"
                                     id="status" required>
-                             
+                                @foreach(config('status') as $status)
+                                    <option
+                                        value="{{ $status }}" {{ (old('status') ? old('status') : $project->status ?? '') == $status ? 'selected' : '' }}>{{ ucfirst($status) }}</option>
+                                @endforeach
                             </select>
                             @if($errors->has('status'))
                                 <div class="invalid-feedback">

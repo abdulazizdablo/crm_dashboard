@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Project;
 
 class ProjectAssigned extends Mailable
 {
@@ -20,10 +21,10 @@ class ProjectAssigned extends Mailable
      
      */
 
-    protected $email_project;
-    public function __construct($project)
+    protected $project;
+    public function __construct( Project $project)
     {
-        $this->email_project = $project;
+        $this->project = $project;
     }
 
     /**

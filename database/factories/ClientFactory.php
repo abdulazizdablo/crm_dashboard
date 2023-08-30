@@ -18,10 +18,16 @@ class ClientFactory extends Factory
     {
         return [
 
-            'company_name' => $this->faker->name,
 
-            'vat' => $this->faker->randomNumber(5),
-            'address' => $this->faker->address()
+            'contact_name' => $this->faker->name(),
+            'contact_email' => $this->faker->email(),
+            'company_city' => $this->faker->city(),
+            'contact_phone_number' => $this->faker->phoneNumber(),
+            'company_zip'  => $this->faker->countryCode(),
+            'company_name' => $this->faker->name(),
+            'company_vat' => $this->faker->randomNumber(5),
+            'company_address' => $this->faker->address()
+
 
         ];
     }

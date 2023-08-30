@@ -17,7 +17,6 @@ class Client extends Model
         'contact_email',
         'company_city',
         'contact_phone_number',
-
         'company_zip',
         'company_name',
         'company_vat',
@@ -25,35 +24,14 @@ class Client extends Model
     ];
 
 
-    /* public function clientActiveScope()
-    {
-
-        return Client::where('status', 1);
-    }*/
-
-
-    /* public function scopeActiveFromSession(Builder $query)
-    {
-        // Get the user's session ID
-        $sessionId = session('session_id');
-
-        // Get the active clients from the session database
-        $clients = DB::table('sessions')
-            ->where('id', $sessionId)
-            ->where('last_activity', '>', Carbon::now()->subMinutes(15))
-            ->pluck('client_id');
-
-        // Only return the clients that are in the session database
-        $query->whereIn('id', $clients);
-    }*/
-
+   
     public function projects(): HasMany
     {
 
         return $this->hasMany(Project::class);
     }
 
-    public function getFullName()
+    public function getFullNameAttribute()
     {
 
         return $this->first_name . ' ' . $this->last_name;
