@@ -18,57 +18,65 @@
                     {{ session('status') }}
                 </div>
             @endif
+            @if (session('message'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('message') }}
+                </div>
+            @endif
 
             <div class="d-flex justify-content-end">
                 <form action="{{ route('tasks.index') }}" method="GET">
-                    
+
                 </form>
             </div>
 
             <table class="table table-responsive-sm table-striped">
                 <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Assigned to</th>
-                    <th>Client</th>
-                    <th>Deadline</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
+                    <tr>
+                        <th>Title</th>
+                        <th>Assigned to</th>
+                        <th>Client</th>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
-                @foreach($tasks as $task)
-                    <tr>
-                        <td><a href="{{ route('tasks.show', $task) }}">{{ $task->title }}</a></td>
-                        <td>{{ $task->user->first_name }}</td>
-                        <td>{{ $task->client->company_name }}</td>
-                        <td>{{ $task->deadline }}</td>
-                        <td>{{ $task->status }}</td>
-                        <td>
-                            <a class="btn btn-sm btn-info" href="{{ route('tasks.edit', $task) }}">
-                                Edit
-                            </a>
-                            @can('delete')
-                                <form action="{{ route('tasks.destroy', $task) }}" method="POST" onsubmit="return confirm('Are your sure?');" style="display: inline-block;">
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <input type="submit" class="btn btn-sm btn-danger" value="Delete">
-                                </form>
-                            @endcan
-                        </td>
-                        <form action="{{ route('projects.soft-delete', $project->id) }}" method="POST">
+                    @foreach ($tasks as $task)
+                        <tr>
+                            <td><a href="{{ route('tasks.show', $task) }}">{{ $task->title }}</a></td>
+                            <td>{{ $task->user->full_name }}</td>
+                            <td>{{ $task->client->company_name }}</td>
+                            <td>{{ $task->deadline }}</td>
+                            <td>{{ $task->status }}</td>
+                            <td>
+                                <a class="btn btn-sm btn-info" href="{{ route('tasks.edit', $task) }}">
+                                    Edit
+                                </a>
+                                @can('delete')
+                                    <form action="{{ route('tasks.destroy', $task) }}" method="POST"
+                                        onsubmit="return confirm('Are your sure?');" style="display: inline-block;">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+                                    </form>
+                                @endcan
 
-                            @csrf
-                            <Input class="btn btn-sm btn-danger" type="submit" value="Soft Delete"
-                                placeholder="Soft Delete">
-                        </form>
-                    </tr>
-                @endforeach
+                                <form action="{{ route('tasks.soft-delete', $task->id) }}" method="POST">
+
+                                    @csrf
+                                    <Input class="btn btn-sm btn-danger" type="submit" value="Soft Delete"
+                                        placeholder="Soft Delete"
+                                        {{ $task->deleted_at ? 'disabled  title = this task is softdeleted' : '' }}>
+                                </form>
+                            </td>
+
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
 
             {{ $tasks->withQueryString()->links() }}
         </div>
     </div>
-
 @endsection

@@ -52,9 +52,6 @@
                             <td>{{ $project->status }}</td>
                             <td>
 
-
-
-
                                 @can('update',$project)
                                     <a class="btn btn-sm btn-info" href="{{ route('projects.edit', $project) }}">
                                         Edit
@@ -75,7 +72,7 @@
 
                                     @csrf
                                     <Input class="btn btn-sm btn-danger" type="submit" value="Soft Delete"
-                                        placeholder="Soft Delete">
+                                        placeholder="Soft Delete" {{$project->deleted_at ? "disabled  title = this project is softdeleted"  : ''}}>
                                 </form>
                             </td>
                         </tr>

@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use App\Enums\StatusModel;
 use Illuminate\Auth\Access\Gate;
 use App\Http\Requests\EditTaskRequest;
+use App\Notifications\TaskAssigned;
 
 class TaskController extends Controller
 {
@@ -20,8 +21,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks =Task::with(['user','client','project'])->withTrashed()->paginate(20);
-        return view('layouts.tasks.index')->with('tasks',$tasks);
+        $tasks = Task::with(['user', 'client', 'project'])->withTrashed()->paginate(20);
+        return view('layouts.tasks.index')->with('tasks', $tasks);
     }
 
     /**
@@ -31,18 +32,14 @@ class TaskController extends Controller
     {
         $users = User::all()->pluck('full_name', 'id');
         $clients = Client::all()->pluck('company_name', 'id');
-        $projects = Project::all()->pluck('title','id');
+        $projects = Project::all()->pluck('title', 'id');
         //$taskstatus = StatusModel::cases();
 
         /*$flatArray = [];
         foreach ($taskstatus as $case) {
             $flatArray[$case->name] = $case->value;
         }*/
-        return view('layouts.tasks.create')->
-        with('users',$users)->
-        with('clients',$clients)->
-        with('projects',$projects)->
-        with('statuses',config('status'));
+        return view('layouts.tasks.create')->with('users', $users)->with('clients', $clients)->with('projects', $projects)->with('statuses', config('status'));
     }
 
     /**
@@ -50,8 +47,12 @@ class TaskController extends Controller
      */
     public function store(CreateTaskRequest $request)
     {
-        Task::create(array_merge($request->validated(),
-        ['deadline'=> Carbon::parse('deadline')]));
+        $task = Task::create(
+            $request->validated()
+        );
+
+        $this->notify(new TaskAssigned($task));
+        return redirect()->route('task.index')->withMessage('Task has been created successfully');
     }
 
     /**
@@ -59,7 +60,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        return view('layouts.tasks.show')->with('task',$task);
+        return view('layouts.tasks.show')->with('task', $task);
     }
 
     /**
@@ -67,7 +68,17 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        return view('layouts.tasks.edit')->with('task',$task);
+
+        $users = User::all()->pluck('full_name', 'id');
+        $clients = Client::all()->pluck('company_name', 'id');
+        $projects = Project::all()->pluck('title', 'id');
+
+
+        return view('layouts.tasks.edit')->
+        with('task', $task)->
+        with('users', $users)->
+        with('clients',$clients)->
+        with('projects',$projects);
     }
 
     /**
@@ -92,7 +103,9 @@ class TaskController extends Controller
     public function softDelete(Task $task)
     {
 
-        $task->delete_at = now();
+        $task->deleted_at = now();
         $task->save();
+        return redirect()->route('tasks.index')->with('message', 'Task has been soft deleted successfully');
+
     }
 }

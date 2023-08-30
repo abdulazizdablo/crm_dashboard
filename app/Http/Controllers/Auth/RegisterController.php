@@ -89,7 +89,7 @@ class RegisterController extends Controller
         ]);
         //$profile->save();
 
-        $user->sendEmailVerificationNotification();
+      //  $user->sendEmailVerificationNotification();
 
 
 

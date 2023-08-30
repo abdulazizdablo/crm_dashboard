@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ClientResource;
+use App\Models\Client;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -12,7 +14,26 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+
+
+
+
+
+        return response()->json([
+            'success' => 1,
+
+
+            'clients' => ClientResource::collection(Client::all()),
+
+            'headers' => [
+
+                'Accept' => 'application/json'
+            ]
+
+
+
+
+        ]);
     }
 
     /**
@@ -20,7 +41,11 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    
+
+
+
+
     }
 
     /**
@@ -36,7 +61,11 @@ class ClientController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
+
+
+
+        
     }
 
     /**
@@ -47,9 +76,7 @@ class ClientController extends Controller
         //
     }
 
-    public function sofDelete(){
-
-
-
+    public function softDelete()
+    {
     }
 }

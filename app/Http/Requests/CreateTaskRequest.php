@@ -3,7 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use App\Enums\StatusModel;
+use Illuminate\Validation\Rules\Enum;
 class CreateTaskRequest extends FormRequest
 {
     /**
@@ -27,9 +28,10 @@ class CreateTaskRequest extends FormRequest
             'title' => 'required|string|max:40',
             'description' => 'required|string|max:255',
             'deadline' => 'required|date_format:Y-m-d|after:now',
-            'assigned_project' => 'required',
-            'assigned_client' => 'required',
-            'status' => 'required|in'.config('status')
+            'user_id' => 'required',
+            'client_id' => 'required',
+            'project_id' => 'required',
+            'status' => [new Enum(StatusModel::class)]
         ];
     }
 }

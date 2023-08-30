@@ -24,6 +24,15 @@ class UserController extends Controller
     }
 
 
+public function delete(Request $request){
+
+User::create($request->validated());
+
+}
+
+    
+
+
     public function softDelete(User $user)
     {
 

@@ -86,7 +86,10 @@
                             <label for="status">Status</label>
                             <select class="form-control {{ $errors->has('status') ? 'is-invalid' : '' }}" name="status"
                                     id="status" required>
-                              
+                                @foreach(config('status') as $status)
+                                    <option
+                                        value="{{ $status }}" {{ (old('status') ? old('status') : $project->status ?? '') == $status ? 'selected' : '' }}>{{ ucfirst($status) }}</option>
+                                @endforeach
                             </select>
                             @if($errors->has('status'))
                                 <div class="invalid-feedback">
@@ -108,7 +111,7 @@
             <div class="card">
                 <div class="card-header">Files</div>
                 <div class="card-body">
-                    <form action="{{ route('media.upload', ['Project', $project]) }}" method="POST"
+                    <form action="" method="POST"
                           enctype="multipart/form-data">
                         @csrf
 
@@ -143,10 +146,10 @@
                                 <th scope="row">{{ $media->file_name }}</th>
                                 <td>{{ $media->human_readable_size }}</td>
                                 <td>
-                                    <a class="btn btn-xs btn-info" href="{{ route('media.download', $media) }}">
+                                    <a class="btn btn-xs btn-info" href="">
                                         Download
                                     </a>
-                                    <form action="{{ route('media.delete', ['Project', $project, $media]) }}"
+                                    <form action=""
                                           method="POST" onsubmit="return confirm('Are your sure?');"
                                           style="display: inline-block;">
                                         @csrf

@@ -8,16 +8,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Task extends Model
+
+class Task extends Model implements HasMedia
 {
-    use HasFactory, FormatDates, SoftDeletes;
+    use HasFactory, FormatDates, SoftDeletes, InteractsWithMedia;
 
     protected $fillable = [
         'title',
         'description',
         'user_id',
         'deadline',
+        'client_id',
+        'project_id',
         'status'
     ];
 

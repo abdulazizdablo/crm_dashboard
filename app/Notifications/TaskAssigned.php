@@ -14,9 +14,13 @@ class TaskAssigned extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+
+
+    public function __construct($task)
     {
-        //
+
+        $this->task = $task;
+        
     }
 
     /**
@@ -48,7 +52,9 @@ class TaskAssigned extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            
+
+
         ];
     }
 }

@@ -9,16 +9,21 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ClientJoinedMail extends Mailable
+class ProjectAssigned extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
+     * 
+
+     
      */
-    public function __construct()
+
+    protected $email_project;
+    public function __construct($project)
     {
-        //
+        $this->email_project = $project;
     }
 
     /**
@@ -27,7 +32,7 @@ class ClientJoinedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Client Joined Mail',
+            subject: 'Project Assigned',
         );
     }
 
@@ -37,7 +42,7 @@ class ClientJoinedMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'email.project_assigned_email',
         );
     }
 

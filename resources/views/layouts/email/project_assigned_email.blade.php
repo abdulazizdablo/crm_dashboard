@@ -9,6 +9,7 @@
 <body>
     
 
-    Please Log in to proceed
+
+    Project has been assigned to you
 </body>
 </html>

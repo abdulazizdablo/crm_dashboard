@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\Client;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
@@ -26,10 +27,17 @@ class DatabaseSeeder extends Seeder
 
             'name' => 'admin'
         ]);
-        Role::create([
+        $admin  =  Role::create([
 
             'name' => 'user'
         ]);
+
+
+        $permission1 = Permission::create(['name' => 'edit users']);
+        $permission2 =  Permission::create(['name' => 'delete users']);
+        $permission3 =  Permission::create(['name' => 'create users']);
+        $admin->givePermissionTo([$permission1,   $permission2, $permission3]);
+
 
         // \App\Models\User::factory(10)->create();
 
