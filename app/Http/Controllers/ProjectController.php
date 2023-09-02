@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateProjectRequest;
 use App\Http\Requests\EditProjectRequest;
+use App\Jobs\ProcessEmail;
 use App\Mail\ProjectAssigned;
 use Illuminate\Http\Request;
 use App\Models\Project;
@@ -61,7 +62,9 @@ class ProjectController extends Controller
 
         $user = User::find($request->user_id);
 
-        Mail::to($user)->send(new ProjectAssigned($project));
+    //    Mail::to($user)->send(new ProjectAssigned($project));
+    ProcessEmail::dispatch($user,$project);
+
 
         return redirect()->route('projects.index')->with(['message' => 'Project has been created succefully']);
     }
@@ -79,7 +82,6 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
 
-        // $this->authorize('update',$project);
 
         $users = User::all()->pluck('full_name', 'id');
         $clients = Client::all()->pluck('company_name', 'id');
@@ -92,8 +94,6 @@ class ProjectController extends Controller
      */
     public function update(EditProjectRequest $request, Project $project)
     {
-
-
 
 
         $project->update($request->validated());

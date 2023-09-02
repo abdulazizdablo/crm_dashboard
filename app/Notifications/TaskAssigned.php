@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Models\Task;
 
 class TaskAssigned extends Notification
 {
@@ -14,13 +15,12 @@ class TaskAssigned extends Notification
     /**
      * Create a new notification instance.
      */
-protected $task;
+    protected $task;
 
-    public function __construct($task)
+    public function __construct(Task $task)
     {
 
         $this->task = $task;
-        
     }
 
     /**
@@ -30,7 +30,7 @@ protected $task;
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail','database'];
     }
 
     /**
@@ -39,9 +39,11 @@ protected $task;
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->greeting("Hello!" . $this->task->user->full_name)
+            ->line('Task has been assigned to you')
+
+            ->action('View Task', route('tasks.show', $this->task))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -52,7 +54,8 @@ protected $task;
     public function toArray(object $notifiable): array
     {
         return [
-            
+
+            'task_name' => $this->task->title,
 
 
         ];

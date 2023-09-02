@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    
+@component('mail::message')
+# {{ $user_name }}
+  
+Project has beem assigned please click the linke below for further details  
+@component('mail::button', ['url' =>route('projects.show',$project)])
+Visit Our Website
+@endcomponent
+  
+Thanks,
 
-
-    Project has been assigned to you
-</body>
-</html>
+{{ config('app.name') }}
+@endcomponent

@@ -21,8 +21,8 @@ class ProjectAssigned extends Mailable
      
      */
 
-    protected $project;
-    public function __construct( Project $project)
+    public $project;
+    public function __construct(Project $project)
     {
         $this->project = $project;
     }
@@ -34,6 +34,8 @@ class ProjectAssigned extends Mailable
     {
         return new Envelope(
             subject: 'Project Assigned',
+
+
         );
     }
 
@@ -43,7 +45,10 @@ class ProjectAssigned extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email.project_assigned_email',
+            markdown: 'layouts.email.project_assigned_email',
+            with: [
+                'user_name' => $this->project->user->full_name,
+            ],
         );
     }
 
