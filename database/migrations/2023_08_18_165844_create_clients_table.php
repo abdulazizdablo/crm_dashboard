@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('company_address', 255);
             $table->string('company_city', 40);
             $table->string('company_name', 40);
-
             $table->string('contact_phone_number', 40);
             $table->string('company_zip', 40);
             $table->string('company_vat');

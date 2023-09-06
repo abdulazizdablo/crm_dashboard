@@ -61,7 +61,7 @@
                 <div class="card-header">Tasks</div>
 
                 <div class="card-body">
-                    @if($project->tasks->count())
+                    @if($project->tasks_count)
                         <table class="table table-sm table-responsive-sm">
                             <thead>
                             <tr>

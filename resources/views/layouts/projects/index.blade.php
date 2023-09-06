@@ -57,7 +57,7 @@
                                         Edit
                                     </a>
                                 @endcan
-                                @can('delete')
+                                @can('delete',$project)
                                     <form action="{{ route('projects.destroy', $project) }}" method="POST"
                                         onsubmit="return confirm('Are your sure?');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">

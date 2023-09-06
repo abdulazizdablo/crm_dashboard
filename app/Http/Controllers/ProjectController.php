@@ -35,15 +35,7 @@ class ProjectController extends Controller
 
         $users = User::all()->pluck('full_name', 'id');
         $clients = Client::all()->pluck('company_name', 'id');
-        //$projectstatus = StatusModel::cases();
-
-
-        /* $flatArray = [];
-        foreach ($projectstatus as $case) {
-            $flatArray[$case->name] = $case->value;
-        }*/
-
-
+    
 
         return view('layouts.projects.create')->with('users', $users)->with('clients', $clients)->with('statuses', config('status'));
     }
@@ -62,17 +54,17 @@ class ProjectController extends Controller
 
         $user = User::find($request->user_id);
 
-    //    Mail::to($user)->send(new ProjectAssigned($project));
-    ProcessEmail::dispatch($user,$project);
+        ProcessEmail::dispatch($user, $project);
 
-
-        return redirect()->route('projects.index')->with(['message' => 'Project has been created succefully']);
+        return back()->withMessage('Project has been created succefully');
     }
     /**
      * Display the specified resource.
      */
     public function show(Project $project)
     {
+
+        $project->withCount('tasks');
         return view('layouts.projects.show')->with('project', $project);
     }
 
@@ -95,8 +87,8 @@ class ProjectController extends Controller
     public function update(EditProjectRequest $request, Project $project)
     {
 
-
         $project->update($request->validated());
+        return back()->withMessage('Project has been updated successfully');
     }
 
     /**
@@ -113,11 +105,9 @@ class ProjectController extends Controller
     public function softDelete(Project $project)
     {
 
-
-
         $project->deleted_at = now();
         $project->save();
 
-        return redirect()->route('projects.index')->with('message', 'Project has been soft deleted successfully');
+        return back()->withMessage('Project has been soft deleted successfully');
     }
 }

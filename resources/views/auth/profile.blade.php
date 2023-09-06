@@ -29,10 +29,7 @@
                     @enderror
                 </div>
 
-@dd($profile->getMedia())
-            @foreach ($profile->getMedia() as $media )
-                {{ $media }}
-            @endforeach
+          
                 <div class="input-group mb-3"><span class="input-group-text">
                         <svg class="icon">
                             <use xlink:href="{{ asset('icons/coreui.svg#cil-envelope-open') }}"></use>
@@ -46,6 +43,12 @@
                     @enderror
                 </div>
 
+
+
+                <img src="{{asset(auth()->user()->profile->getMedia('*')[0]->getPath('thumb'))}}" alt="asd"  width="200" height="200"> 
+                <img src="{{Storage::disk('public')->url((auth()->user()->profile->getMedia('*')[0]->getPath('thumb')))}}" alt="asd"  width="200" height="200"> 
+
+@dd(asset(auth()->user()->profile->getMedia('*')[0]->getPath('thumb')))
                 <div class="input-group mb-3"><span class="input-group-text">
                         <svg class="icon">
                             <use xlink:href="{{ asset('icons/coreui.svg#cil-lock-locked') }}"></use>
@@ -69,18 +72,18 @@
 
             </div>
 
-            <div class="card-footer">
+          
+
+
+
+        </form>
+          <div class="card-footer">
                 <button class="btn btn-sm btn-primary" type="submit">{{ __('Submit') }}</button>
 
                 <a href="{{ route('media.createImage') }}"> <button class="btn btn-sm btn-success">
                     {{ __('Set profile picture') }}</button> </a>
 
             </div>
-
-
-
-        </form>
-        
 
     </div>
 @endsection

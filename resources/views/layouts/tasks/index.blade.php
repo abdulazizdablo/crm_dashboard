@@ -53,7 +53,7 @@
                                 <a class="btn btn-sm btn-info" href="{{ route('tasks.edit', $task) }}">
                                     Edit
                                 </a>
-                                @can('delete')
+                                @can('delete-task')
                                     <form action="{{ route('tasks.destroy', $task) }}" method="POST"
                                         onsubmit="return confirm('Are your sure?');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">

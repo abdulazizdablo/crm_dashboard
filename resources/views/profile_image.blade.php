@@ -31,7 +31,7 @@
 
 
 <div  style="display:none;" id="image_container" class="card">
-    <img    style="width:400px;" class="card-img-top" id="photo-preview" alt="Image preview">
+    <img  style="width:400px;" class="card-img-top" id="photo-preview" alt="Image preview">
     <div class="card-body">
 
         

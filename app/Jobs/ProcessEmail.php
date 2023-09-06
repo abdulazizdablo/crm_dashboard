@@ -12,6 +12,9 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ProjectAssigned;
+use App\Models\Task;
+use App\Notifications\TaskAssigned;
+
 
 class ProcessEmail implements ShouldQueue
 {
@@ -20,7 +23,7 @@ class ProcessEmail implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public User $user, public Project $project)
+    public function __construct(public User $user, public $model)
     {
     }
 
@@ -29,6 +32,14 @@ class ProcessEmail implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($this->user)->send(new ProjectAssigned($this->project));
+      if($this->model instanceof Task){
+        $this->user->notify(new TaskAssigned($this->model));
+
+
+      }
+      else
+
+
+        Mail::to($this->user)->send(new ProjectAssigned($this->model));
     }
 }

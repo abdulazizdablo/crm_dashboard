@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::get('media', [MediaController::class, 'createImage'])->name('media.createImage');
     Route::post('media', [MediaController::class, 'updateImage'])->name('media.updateImage');
 
-  //  Route::get('users', [UserController::class, 'delete'])->name('users.delete')->middleware('role:admin');
+    Route::delete('users/{user}', [UserController::class, 'delete'])->name('users.delete')->middleware('role:admin');
 
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');

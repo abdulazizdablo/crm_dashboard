@@ -45,7 +45,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project): bool
     {
-        return ($user->hasRole('admin') || $user->id == $user->project->id);
+        return ($user->hasRole('admin') || $user->id == $project->user_id);
     }
 
     /**

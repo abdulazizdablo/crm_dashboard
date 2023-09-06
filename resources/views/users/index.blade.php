@@ -20,7 +20,7 @@
                 <tbody>
                     @foreach ($users as $user)
                         <tr>
-                            <td>{{ $user->getFullNameAttribute() }}</td>
+                            <td>{{ $user->full_name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
                                 <form action="{{ route('users.soft-delete', $user->id) }}" method="POST">
@@ -28,11 +28,17 @@
                                     @csrf
                                     <Input class="btn btn-sm btn-danger" type="submit" value="Soft Delete"
                                         placeholder="Soft Delete">
-                                  
+
+                                </form>
+                                <form action="{{ route('users.delete', $user->id) }}" method="POST">
+                                    @method('DELETE')
+                                    @csrf
+                                    <Input class="btn btn-sm btn-danger" type="submit" value="Delete"
+                                        placeholder="Delete">
+
                                 </form>
                             </td>
                         </tr>
-                    
                     @endforeach
                 </tbody>
             </table>

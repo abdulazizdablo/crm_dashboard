@@ -21,10 +21,9 @@ class ProjectAssigned extends Mailable
      
      */
 
-    public $project;
-    public function __construct(Project $project)
+
+    public function __construct(public Project $project)
     {
-        $this->project = $project;
     }
 
     /**

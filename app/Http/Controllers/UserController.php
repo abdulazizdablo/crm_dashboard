@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Support\Carbon;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -24,13 +25,15 @@ class UserController extends Controller
     }
 
 
-public function delete(Request $request){
+    public function destroy(User $user)
+    {
 
-User::create($request->validated());
+        $user->forceDelete();
 
-}
+        return back()->withMessage('User has been deleted successfully');
+    }
 
-    
+
 
 
     public function softDelete(User $user)
@@ -39,5 +42,6 @@ User::create($request->validated());
 
         $user->deleted_at = now();
         $user->save();
+
     }
 }

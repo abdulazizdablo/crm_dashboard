@@ -72,31 +72,16 @@ class RegisterController extends Controller
             'last_name' => $data['last_name'],
 
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => bcrypt($data['password']),
+            'role_id' => 1
         ]);
-        $user->assignRole('user');
-
-        /* $profile = Profile::create([
-            'name' => $data['first_name'] . $data['last_name'] ,
-            'email' => $data['email'],
-        ]);*/
-
-        //$user->profile()->associate($profile);
+        $user->assignRole('admin');
+        
 
         $user->profile()->create([
             'name' => $data['first_name'] . $data['last_name'],
             'email' => $data['email'],
         ]);
-        //$profile->save();
-
-      //  $user->sendEmailVerificationNotification();
-
-
-
-        /*if ($user->hasVerifiedEmail()) {
-
-            $user->markEmailAsVerified();
-        }*/
 
         return $user;
     }

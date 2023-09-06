@@ -64,10 +64,10 @@
                 <label for="status">Status</label>
                 <select class="form-control {{ $errors->has('status') ? 'is-invalid' : '' }}" name="status" id="status"
                     required>
-                    @foreach ($statuses as $status)
-                        <option value="{{ $status }}" {{ old('status') == $status ? 'selected' : '' }}>
-                            {{ ucfirst($status) }}</option>
-                    @endforeach
+                    @foreach(App\Enums\StatusModel::cases() as $status)
+                    <option
+                        value="{{ $status->value }}" {{ old('status') == $status->value ? 'selected' : '' }}>{{ ucfirst($status->value) }}</option>
+                @endforeach
                 </select>
                 @if ($errors->has('status'))
                     <div class="invalid-feedback">

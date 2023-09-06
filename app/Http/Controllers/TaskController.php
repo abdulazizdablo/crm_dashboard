@@ -13,6 +13,7 @@ use App\Enums\StatusModel;
 use Illuminate\Auth\Access\Gate;
 use App\Http\Requests\EditTaskRequest;
 use App\Notifications\TaskAssigned;
+use App\Jobs\ProcessEmail;
 
 class TaskController extends Controller
 {
@@ -49,8 +50,8 @@ class TaskController extends Controller
 
         $user = User::find($request->user_id);
 
-        $user->notify(new TaskAssigned($task));
-        return redirect()->route('tasks.index')->withMessage('Task has been created successfully');
+        ProcessEmail::dispatch($user, $task);
+        return back()->withMessage('Task has been created successfully');
     }
 
     /**
@@ -58,7 +59,8 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        return view('layouts.tasks.show')->with('task', $task);
+
+        return view('layouts.tasks.show')->with('task', $task)->with('project',$task->project);
     }
 
     /**
@@ -100,6 +102,6 @@ class TaskController extends Controller
 
         $task->deleted_at = now();
         $task->save();
-        return redirect()->route('tasks.index')->with('message', 'Task has been soft deleted successfully');
+        return redirect()->back()->withMessage('Task has been soft deleted successfully');
     }
 }

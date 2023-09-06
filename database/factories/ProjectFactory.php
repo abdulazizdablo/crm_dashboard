@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Enums\StatusModel;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Project>
  */
@@ -23,7 +23,7 @@ class ProjectFactory extends Factory
             'client_id' => 1,
             'deadline' => $this->faker->dateTime(),
 
-            'status' => $this->faker->randomElement(config('status')),
+            'status' => $this->faker->randomElement(StatusModel::values()),
         
         ];
     }
